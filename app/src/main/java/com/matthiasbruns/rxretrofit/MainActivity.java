@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         // Cheap way to display a list of Strings - I was too lazy to implement a RecyclerView
         final StringBuilder output = new StringBuilder();
         for (final Geoname geoname : geonames) {
-            output.append(geoname).append("\n");
+            output.append(geoname.name).append("\n");
         }
 
         mOutputTextView.setText(output.toString());
