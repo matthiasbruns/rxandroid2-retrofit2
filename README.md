@@ -35,7 +35,7 @@ compile 'com.squareup.retrofit2:converter-gson:2.3.0'
 
 ## Demo Webservice
 
-For this guide we will use an open websive called GeoNames. You can find its documentation here http://www.geonames.org/export/JSON-webservices.html
+For this guide we will use an open webservice called GeoNames. You can find its documentation here http://www.geonames.org/export/JSON-webservices.html
 
 We will implement a simple example with the cities webservice.
 
@@ -128,7 +128,7 @@ public class Geoname {
 ````
 
 We have to add "username=demo" as a query parameter after every request.
-There is a way to do this automatically - the OkHttp Interceptor.
+There is a way to do this automatically - with an OkHttp Interceptor.
 https://github.com/matthiasbruns/rxandroid2-retrofit2/commit/9c42ed917d0d34b2e3f188e91d58d5083c2183d5
 
 ````JAVA
@@ -170,7 +170,7 @@ https://github.com/matthiasbruns/rxandroid2-retrofit2/commit/9c42ed917d0d34b2e3f
     }
 ````
 
- To enable GSON in retrofit, we also need to add ConverterFactory to Retrofit.
+ To enable GSON in retrofit, we also need to add a ConverterFactory to Retrofit.
  ````JAVA
  // com.matthiasbruns.rxretrofit.network.RetrofitHelper
 
@@ -195,10 +195,10 @@ Single<CityResponse> queryGeonames(@Query("north") double north, @Query("south")
         @Query("east") double east, @Query("west") double west, @Query("lang") String lang);
 ````
 
-As you can see, the method has all queries except the "username" parameter from the example query. Since the api listens to a GET request, we have to annotate this method with @GET("citiesJSON"). "citiesJSON" is the relative path to the root url of the api. All query parameters will be added to the whole request url.
+As you can see, the method has all query parameters except the "username" parameter from the example query. Since the api listens to a GET request, we have to annotate this method with @GET("citiesJSON"). "citiesJSON" is the relative path to the root url of the api. All query parameters will be added to the whole request url.
 The return type **Single<CityResponse>** is a RxJava typed CityResponse object. Single means, that if you subscribe to this method, it will only emit an item once or call onError. If you want to know more about RxJava 2 you should read this guide: https://github.com/balamaci/rxjava-walkthrough
 
-The last step it the actual creation of the service.
+The next step it the actual creation of the service.
 
 ````JAVA
 // com.matthiasbruns.rxretrofit.networkRetrofitHelper
@@ -309,7 +309,7 @@ In the MainActivity, we will add/replace the following code.
     }
 ````
 
-The method **DisplayGeonames** calls the service endpoint we created before. The result is being transformed into the geoname list.
+The method **requestGeonames** calls the service endpoint we've created before. The result is being transformed into the geoname list.
 In the subscribe call, we send the geonames to the display logic, which simply loops through the list and displays the names of the Geoname object in a TextView.
 
 ## Conclusion
