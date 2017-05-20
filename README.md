@@ -4,7 +4,7 @@ This short guide explains how you setup and use Retrofit 2 with RxAndroid 2.
 The example code I use can be found here: https://github.com/matthiasbruns/rxandroid2-retrofit2
 
 ## Project Setup
-https://github.com/matthiasbruns/rxandroid2-retrofit2/commit/6682f70d70da9951e38bb61458faa630d4e742cf
+[6682f70d70da9951e38bb61458faa630d4e742cf](https://github.com/matthiasbruns/rxandroid2-retrofit2/commit/6682f70d70da9951e38bb61458faa630d4e742cf)
 
 We need two dependencies for this project. Add the lines below to your build.gradle in your app project under **dependencies**.
 
@@ -129,7 +129,8 @@ public class Geoname {
 
 We have to add "username=demo" as a query parameter after every request.
 There is a way to do this automatically - with an OkHttp Interceptor.
-https://github.com/matthiasbruns/rxandroid2-retrofit2/commit/9c42ed917d0d34b2e3f188e91d58d5083c2183d5
+
+[9c42ed917d0d34b2e3f188e91d58d5083c2183d5](https://github.com/matthiasbruns/rxandroid2-retrofit2/commit/9c42ed917d0d34b2e3f188e91d58d5083c2183d5)
 
 ````JAVA
 // com.matthiasbruns.rxretrofit.network.RetrofitHelper
@@ -210,7 +211,7 @@ public CityService getCityService() {
 ````
 
 Before we can finally work on Android code, we have to enable RxJava in Retrofit.
-https://github.com/matthiasbruns/rxandroid2-retrofit2/commit/2408d9142d1d83be691485527316f187ec7cacdc
+[2408d9142d1d83be691485527316f187ec7cacdc](https://github.com/matthiasbruns/rxandroid2-retrofit2/commit/2408d9142d1d83be691485527316f187ec7cacdc)
 
 ````JAVA
 // com.matthiasbruns.rxretrofit.network.RetrofitHelper
@@ -226,7 +227,7 @@ private Retrofit createRetrofit() {
 ````
 
 ## Using The Service
-https://github.com/matthiasbruns/rxandroid2-retrofit2/commit/be9b654cbb2cb006dc114d1fb7bf9177345785ff
+[be9b654cbb2cb006dc114d1fb7bf9177345785ff](https://github.com/matthiasbruns/rxandroid2-retrofit2/commit/be9b654cbb2cb006dc114d1fb7bf9177345785ff)
 
 To use the service, you have to add the INTERNET permission first to the AndroidManifest
 
