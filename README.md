@@ -210,6 +210,7 @@ public CityService getCityService() {
 ````
 
 Before we can finally work on Android code, we have to enable RxJava in Retrofit.
+2408d9142d1d83be691485527316f187ec7cacdc
 
 ````JAVA
 // com.matthiasbruns.rxretrofit.network.RetrofitHelper
