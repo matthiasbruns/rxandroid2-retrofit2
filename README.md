@@ -1,9 +1,10 @@
 # RxAndroid 2 & Retrofit 2
 
 This short guide explains how you setup and use Retrofit 2 with RxAndroid 2.
+The example code I use can be found here: https://github.com/matthiasbruns/rxandroid2-retrofit2
 
 ## Project Setup
-6682f70d70da9951e38bb61458faa630d4e742cf
+https://github.com/matthiasbruns/rxandroid2-retrofit2/commit/6682f70d70da9951e38bb61458faa630d4e742cf
 
 We need two dependencies for this project. Add the lines below to your build.gradle in your app project under **dependencies**.
 
@@ -95,7 +96,6 @@ The trimmed JSON output of the query above looks like this
 
 To use GSON we need to define a network model class, which looks like this response of the api.
 
-
 The "Response" object contains a list named "geonames".
 ````java
 // com.matthiasbruns.rxretrofit.network.CityResponse
@@ -129,7 +129,7 @@ public class Geoname {
 
 We have to add "username=demo" as a query parameter after every request.
 There is a way to do this automatically - the OkHttp Interceptor.
-9c42ed917d0d34b2e3f188e91d58d5083c2183d5
+https://github.com/matthiasbruns/rxandroid2-retrofit2/commit/9c42ed917d0d34b2e3f188e91d58d5083c2183d5
 
 ````JAVA
 // com.matthiasbruns.rxretrofit.network.RetrofitHelper
@@ -210,7 +210,7 @@ public CityService getCityService() {
 ````
 
 Before we can finally work on Android code, we have to enable RxJava in Retrofit.
-2408d9142d1d83be691485527316f187ec7cacdc
+https://github.com/matthiasbruns/rxandroid2-retrofit2/commit/2408d9142d1d83be691485527316f187ec7cacdc
 
 ````JAVA
 // com.matthiasbruns.rxretrofit.network.RetrofitHelper
@@ -226,7 +226,7 @@ private Retrofit createRetrofit() {
 ````
 
 ## Using The Service
-be9b654cbb2cb006dc114d1fb7bf9177345785ff
+https://github.com/matthiasbruns/rxandroid2-retrofit2/commit/be9b654cbb2cb006dc114d1fb7bf9177345785ff
 
 To use the service, you have to add the INTERNET permission first to the AndroidManifest
 
@@ -308,3 +308,14 @@ In the MainActivity, we will add/replace the following code.
         );
     }
 ````
+
+The method **DisplayGeonames** calls the service endpoint we created before. The result is being transformed into the geoname list.
+In the subscribe call, we send the geonames to the display logic, which simply loops through the list and displays the names of the Geoname object in a TextView.
+
+## Conclusion
+
+I've shown you how you can easily combine the power of RxJava with Retrofit. We used a randomly picked JSON API (it was my first Google result) and
+created a Retrofit endpoint for the names API. Retrofit has opt-in support for RxJava2, which we used as the return type of our endpoint.
+
+In the activity we subscribe to this created endpoint and display the received information in a simple way.
+I hope I could help you with this little guide to get you Retrofit2-RxJava2 setup working.
