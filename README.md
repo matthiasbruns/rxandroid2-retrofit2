@@ -98,6 +98,8 @@ To use GSON we need to define a network model class, which looks like this respo
 
 The "Response" object contains a list named "geonames".
 ````java
+// com.matthiasbruns.rxretrofit.network.CityResponse
+
 public class CityResponse {
 
     public List<Geoname> geonames;
@@ -106,6 +108,8 @@ public class CityResponse {
 
 The list contains of "Geoname" models.
 ````java
+// com.matthiasbruns.rxretrofit.network.Geoname
+
 public class Geoname {
 
     public double lat;
@@ -125,8 +129,11 @@ public class Geoname {
 
 We have to add "username=demo" as a query parameter after every request.
 There is a way to do this automatically - the OkHttp Interceptor.
+9c42ed917d0d34b2e3f188e91d58d5083c2183d5
 
 ````JAVA
+// com.matthiasbruns.rxretrofit.network.RetrofitHelper
+
 /**
      * This custom client will append the "username=demo" query after every request.
      */
@@ -154,7 +161,65 @@ There is a way to do this automatically - the OkHttp Interceptor.
 
         return httpClient.build();
     }
+
+    private Retrofit createRetrofit() {
+        return new Retrofit.Builder()
+                .baseUrl("http://api.geonames.org/")
+                .client(createOkHttpClient()) // <- add this
+                .build();
+    }
 ````
 
+ To enable GSON in retrofit, we also need to add ConverterFactory to Retrofit.
+ ````JAVA
+ // com.matthiasbruns.rxretrofit.network.RetrofitHelper
 
- To enable GSON in retrofit, we need to
+     private Retrofit createRetrofit() {
+         return new Retrofit.Builder()
+                 .baseUrl("http://api.geonames.org/")
+                 .addConverterFactory(GsonConverterFactory.create()) // <- add this
+                 .client(createOkHttpClient())
+                 .build();
+     }
+ ````
+
+The next step is the service itself. Retrofit does not need a real implementation of the service.
+All you have to do is to provide an interface which can consume the real api endpoint.
+For our use case the service may look like this:
+
+````JAVA
+// com.matthiasbruns.rxretrofit.network.CityService
+
+@GET("citiesJSON")
+Single<CityResponse> queryGeonames(@Query("north") double north, @Query("south") double south,
+        @Query("east") double east, @Query("west") double west, @Query("lang") String lang);
+````
+
+As you can see, the method has all queries except the "username" parameter from the example query. Since the api listens to a GET request, we have to annotate this method with @GET("citiesJSON"). "citiesJSON" is the relative path to the root url of the api. All query parameters will be added to the whole request url.
+The return type **Single<CityResponse>** is a RxJava typed CityResponse object. Single means, that if you subscribe to this method, it will only emit an item once or call onError. If you want to know more about RxJava 2 you should read this guide: https://github.com/balamaci/rxjava-walkthrough
+
+The last step it the actual creation of the service.
+
+````JAVA
+// com.matthiasbruns.rxretrofit.networkRetrofitHelper
+
+public CityService getCityService() {
+    final Retrofit retrofit = createRetrofit();
+    return retrofit.create(CityService.class);
+}
+````
+
+Before we can finally work on Android code, we have to enable RxJava in Retrofit.
+
+````JAVA
+// com.matthiasbruns.rxretrofit.network.RetrofitHelper
+
+private Retrofit createRetrofit() {
+    return new Retrofit.Builder()
+            .baseUrl("http://api.geonames.org/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // <- add this
+            .client(createOkHttpClient())
+            .build();
+}
+````
